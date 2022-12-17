@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:chat_me/api/api.dart';
@@ -47,7 +48,7 @@ class _ScreenHomeState extends State<ScreenHome> {
           if (snapshot.hasData) {
             final data = snapshot.data?.docs;
             for (var i in data!) {
-              log('Data: ${i.data()}');
+              log('Data: ${jsonEncode(i.data())}');
               list.add(i.data()['name']);
             }
           }
