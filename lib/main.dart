@@ -1,11 +1,12 @@
-import 'package:chat_me/presentation/Home/screen_home.dart';
 import 'package:chat_me/presentation/Login/screen_login.dart';
-import 'package:chat_me/presentation/Main/screen_main.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
+  _initializeFirebase();
 }
 
 class MyApp extends StatelessWidget {
@@ -30,4 +31,10 @@ class MyApp extends StatelessWidget {
       home: LoginScreen(),
     );
   }
+}
+
+_initializeFirebase() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
