@@ -1,5 +1,7 @@
-
 import 'package:flutter/material.dart';
+
+//MeediaQuery
+late Size media;
 
 //fontSize
 const kDefaultSize = 30.0;
