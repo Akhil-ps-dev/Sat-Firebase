@@ -1,4 +1,8 @@
+import 'dart:developer';
+
+import 'package:chat_me/api/api.dart';
 import 'package:chat_me/core/color.dart';
+import 'package:chat_me/presentation/Home/widget/chat_widget.dart';
 import 'package:chat_me/presentation/Home/widget/home_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +30,7 @@ class _ScreenHomeState extends State<ScreenHome> {
           ),
         ],
         centerTitle: true,
-        elevation: 0,
+        elevation: 1,
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: kPrimaryColor,
@@ -35,6 +39,25 @@ class _ScreenHomeState extends State<ScreenHome> {
           color: kWhite,
         ),
         onPressed: () {},
+      ),
+      body: StreamBuilder(
+        stream: APIs.firestore.collection('users').snapshots(),
+        builder: ((context, snapshot) {
+          final list = [];
+          if (snapshot.hasData) {
+            final data = snapshot.data?.docs;
+            for (var i in data!) {
+              log('Data: ${i.data()}');
+              list.add(i.data()['name']);
+            }
+          }
+          return ListView.builder(
+              itemCount: list.length,
+              physics: BouncingScrollPhysics(),
+              itemBuilder: (context, index) {
+                return  Text('Name : ${list[index]}');
+              });
+        }),
       ),
     );
   }

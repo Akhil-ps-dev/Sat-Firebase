@@ -33,20 +33,20 @@ class _LoginScreenState extends State<LoginScreen> {
       //for hiding progress bar
       Navigator.pop(context);
 
-      if (user != null) {
-        log('\nUser: ${user.user}');
-        log('\nUserAdditionalInfo: ${user.additionalUserInfo}');
+      // if (user != null) {
+      //   log('\nUser: ${user.user}');
+      //   log('\nUserAdditionalInfo: ${user.additionalUserInfo}');
 
-        if ((await APIs.userExists())) {
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (_) => const ScreenHome()));
-        } else {
-          await APIs.createUser().then((value) {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => const ScreenHome()));
-          });
-        }
-      }
+      //   if ((await APIs.userExists())) {
+      //     Navigator.pushReplacement(
+      //         context, MaterialPageRoute(builder: (_) => const ScreenHome()));
+      //   } else {
+      //     await APIs.createUser().then((value) {
+      //       Navigator.pushReplacement(
+      //           context, MaterialPageRoute(builder: (_) => const ScreenHome()));
+      //     });
+      //   }
+      // }
     });
   }
 
