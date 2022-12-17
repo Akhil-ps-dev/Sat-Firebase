@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:chat_me/api/api.dart';
 import 'package:chat_me/core/color.dart';
+import 'package:chat_me/domain/chat_user_model/chat_user.dart';
 import 'package:chat_me/presentation/Home/widget/chat_widget.dart';
 import 'package:chat_me/presentation/Home/widget/home_widget.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,8 @@ class ScreenHome extends StatefulWidget {
 }
 
 class _ScreenHomeState extends State<ScreenHome> {
+  List<ChatUser> list = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,20 +47,33 @@ class _ScreenHomeState extends State<ScreenHome> {
       body: StreamBuilder(
         stream: APIs.firestore.collection('users').snapshots(),
         builder: ((context, snapshot) {
-          final list = [];
-          if (snapshot.hasData) {
-            final data = snapshot.data?.docs;
-            for (var i in data!) {
-              log('Data: ${jsonEncode(i.data())}');
-              list.add(i.data()['name']);
-            }
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+            case ConnectionState.none:
+              return const Center(child: CircularProgressIndicator());
+
+            case ConnectionState.active:
+            case ConnectionState.done:
+              final data = snapshot.data?.docs;
+              list =
+                  data?.map((e) => ChatUser.fromJson(e.data())).toList() ?? [];
+              if (list.isNotEmpty) {
+                return ListView.builder(
+                    itemCount: list.length,
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return ChatWidget(user: list[index]);
+                      // return Text('Name : ${list[index]}');
+                    });
+              } else {
+                return const Center(
+                  child: Text(
+                    "No Conncetion Found",
+                    style: TextStyle(color: kBlack, fontSize: 20),
+                  ),
+                );
+              }
           }
-          return ListView.builder(
-              itemCount: list.length,
-              physics: BouncingScrollPhysics(),
-              itemBuilder: (context, index) {
-                return  Text('Name : ${list[index]}');
-              });
         }),
       ),
     );
