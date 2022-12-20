@@ -1,14 +1,9 @@
 import 'package:chat_me/presentation/Home/screen_home.dart';
+import 'package:chat_me/presentation/SplashScreen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
- await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+void main() async {
   runApp(const MyApp());
 }
 
@@ -31,8 +26,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.white,
         ),
       ),
-      home: ScreenHome(),
+      home: SplashScreen(),
     );
   }
 }
-
